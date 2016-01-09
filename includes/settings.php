@@ -73,6 +73,11 @@ class fx_SEO_Settings{
 			/* Load the JavaScript needed for the settings screen. */
 			add_action( 'admin_enqueue_scripts', array( $this, 'settings_scripts' ) );
 
+			/* Blog public options. */
+			$blog_public = get_option( 'blog_public' );
+			if( !$blog_public ){
+				add_action( 'admin_notices', array( $this, 'blog_public_notice' ) );
+			}
 		}
 
 	}
@@ -84,6 +89,7 @@ class fx_SEO_Settings{
 	public function settings_scripts( $hook_suffix ){
 		if ( $this->settings_id == $hook_suffix ){
 			wp_enqueue_style( 'fx-seo-admin', FX_SEO_URI . 'css/settings.css', array(), FX_SEO_VERSION );
+			
 		}
 	}
 
@@ -105,6 +111,21 @@ class fx_SEO_Settings{
 
 		</div><!-- wrap -->
 	<?php
+	}
+
+	/**
+	 * Blog Public Admin Notice
+	 * @since 0.1.0
+	 */
+	public function blog_public_notice(){
+		global $hook_suffix;
+		if ( $this->settings_id == $hook_suffix || 'options-reading.php' == $hook_suffix ){
+		?>
+		<div class="error">
+			<?php echo wpautop( sprintf( _x( "<strong>SEO Notice:</strong> You're blocking access to robots. Change your <strong>Search Engine Visibility Option</strong> in <a href='%s'>Reading Settings</a> to fix this.", 'settings page', 'fx-seo' ), esc_url( admin_url( 'options-reading.php' ) ) ) );?>
+		</div>
+		<?php
+		}
 	}
 
 	/**
@@ -210,7 +231,7 @@ class fx_SEO_Settings{
 	 */
 	public function settings_field_front_page_title(){
 	?>
-		<input type="text" value="<?php echo strip_tags( fx_seo_get_option( 'front_page_title', get_bloginfo( 'name' ) ) ); ?>" name="fx-seo[front_page_title]" class="regular-text">
+		<input type="text" value="<?php echo strip_tags( fx_seo_get_option( 'front_page_title' ) ); ?>" placeholder="<?php echo strip_tags( get_bloginfo( 'name' ) ); ?>" name="fx-seo[front_page_title]" class="regular-text">
 		<p class="description"><?php _ex( 'Your current site title is:', 'settings page', 'fx-seo' );?> "<?php echo get_bloginfo( 'name' ); ?>".</p>
 	<?php
 	}
@@ -221,7 +242,7 @@ class fx_SEO_Settings{
 	 */
 	public function settings_field_front_page_meta_description(){
 	?>
-		<textarea class="regular-text"><?php echo strip_tags( fx_seo_get_option( 'front_page_meta_desc', get_bloginfo( 'description' ) ) ); ?></textarea>
+		<textarea name="fx-seo[front_page_meta_desc]" class="regular-text" placeholder="<?php echo strip_tags( get_bloginfo( 'description' ) ); ?>"><?php echo strip_tags( fx_seo_get_option( 'front_page_meta_desc' ) ); ?></textarea>
 		<p class="description"><?php _ex( 'Your current tagline is:', 'settings page', 'fx-seo' );?> "<?php echo get_bloginfo( 'description' ); ?>".</p>
 	<?php
 	}
@@ -231,8 +252,15 @@ class fx_SEO_Settings{
 	 */
 	public function settings_field_template_title(){
 	?>
-		<input type="text" value="<?php echo strip_tags( fx_seo_get_option( 'template_title', '%current_title% &mdash; ' . get_bloginfo( 'name' ) ) ); ?>" name="fx-seo[template_title]" class="regular-text">
-		<p class="description"><?php _ex( '%current_title% &mdash; will be replaced with current page title.', 'settings page', 'fx-seo' );?></p>
+		<input type="text" value="<?php echo strip_tags( fx_seo_get_option( 'template_title' ) ); ?>" name="fx-seo[template_title]" class="regular-text" placeholder="<?php echo strip_tags( '%current_title% &ndash; %site_title%' ); ?>">
+		<?php
+			$explain = fx_seo_settings_template_title_explain();
+			foreach( $explain as $tag => $desc ){
+			?>
+				<p class="description">%<?php echo $tag ?>% &mdash; <?php echo $desc; ?></p>
+			<?php
+			}
+		?>
 	<?php
 	}
 
@@ -242,33 +270,15 @@ class fx_SEO_Settings{
 	 */
 	public function settings_field_template_meta_description(){
 	?>
-		<input type="text" value="<?php echo strip_tags( fx_seo_get_option( 'template_meta_desc', '%current_description%' ) ); ?>" name="fx-seo[template_meta_desc]" class="regular-text">
-		<p class="description"><?php _ex( '%current_description% &mdash; will be replaced with current page description.', 'settings page', 'fx-seo' );?></p>
+		<input type="text" value="<?php echo strip_tags( fx_seo_get_option( 'template_meta_desc' ) ); ?>" name="fx-seo[template_meta_desc]" class="regular-text" placeholder="%current_description%">
+		<?php
+			$explain = fx_seo_settings_template_meta_desc();
+			foreach( $explain as $tag => $desc ){
+			?>
+				<p class="description">%<?php echo $tag ?>% &mdash; <?php echo $desc; ?></p>
+			<?php
+			}
+		?>
 	<?php
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

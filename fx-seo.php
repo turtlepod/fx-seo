@@ -2,7 +2,7 @@
 /**
  * Plugin Name: f(x) SEO
  * Plugin URI: http://genbu.me/plugins/fx-seo
- * Description: A very basic simple SEO Plugin.
+ * Description: Very simple SEO plugin.
  * Version: 1.0.0
  * Author: David Chandra Purnama
  * Author URI: http://shellcreeper.com/
@@ -26,7 +26,7 @@ if ( ! defined( 'WPINC' ) ) { die; }
 ------------------------------------------ */
 
 /* Set plugin version constant. */
-define( 'FX_SEO_VERSION', '0.1.0' );
+define( 'FX_SEO_VERSION', '1.0.0' );
 
 /* Set constant path to the plugin directory. */
 define( 'FX_SEO_PATH', trailingslashit( plugin_dir_path(__FILE__) ) );

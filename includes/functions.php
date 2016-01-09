@@ -8,6 +8,30 @@
 if ( ! defined( 'WPINC' ) ) { die; }
 
 /**
+ * Template: Title Tag
+ * @since 0.1.0
+ */
+function fx_seo_settings_template_title_explain(){
+	$template = array(
+		'current_title' => _x( 'Current page title.', 'settings page', 'fx-seo' ),
+		'site_title' => _x( 'Site title.', 'settings page', 'fx-seo' ),
+	);
+	return apply_filters( 'fx_seo_template_title_explain', $template );
+}
+
+/**
+ * Template: Meta Description Tag
+ * @since 0.1.0
+ */
+function fx_seo_settings_template_meta_desc(){
+	$template = array(
+		'current_description' => _x( 'Current page description.', 'settings page', 'fx-seo' ),
+		'site_title' => _x( 'Site title.', 'settings page', 'fx-seo' ),
+	);
+	return apply_filters( 'fx_seo_template_meta_desc_explain', $template );
+}
+
+/**
  * Get Option helper function
  * @since 0.1.0
  */
@@ -27,7 +51,7 @@ function fx_seo_get_option( $option, $default = '', $option_name = 'fx-seo' ) {
 	}
 
 	/* Get data if it's set */
-	if( isset( $get_option[ $option ] ) ){
+	if( isset( $get_option[ $option ] ) && $get_option[ $option ] ){
 		return $get_option[ $option ];
 	}
 	/* Data is not set */
@@ -43,8 +67,9 @@ function fx_seo_get_option( $option, $default = '', $option_name = 'fx-seo' ) {
  * @since 0.1.0
  */
 function fx_seo_render_title( $title ){
-	$template = fx_seo_get_option( 'template_title', '%current_title% &mdash; ' . get_bloginfo( 'name' ) );
+	$template = fx_seo_get_option( 'template_title', '%current_title% &ndash; %site_title%' );
 	$title = str_replace( '%current_title%', $title, $template );
+	$title = str_replace( '%site_title%', get_bloginfo( 'name' ), $title );
 	return apply_filters( 'fx_seo_render_title', $title );
 }
 
@@ -56,6 +81,7 @@ function fx_seo_render_title( $title ){
 function fx_seo_render_meta_description( $desc ){
 	$template = fx_seo_get_option( 'template_meta_desc', '%current_description%' );
 	$desc = str_replace( '%current_description%', $desc, $template );
+	$desc = str_replace( '%site_title%', get_bloginfo( 'name' ), $desc );
 	return apply_filters( 'fx_seo_render_meta_desc', $desc );
 }
 
@@ -63,13 +89,16 @@ function fx_seo_render_meta_description( $desc ){
 /* Title & Meta Description
 ------------------------------------------ */
 
-/* <title> tag filter */
-add_filter( 'wp_title', 'fx_seo_wp_title', 99 );
-add_filter( 'pre_get_document_title', 'fx_seo_wp_title' ); // wp 4.4
+/* Do not load in admin. */
+if( !is_admin() ){
 
-/* meta description */
-add_action( 'wp_head', 'fx_seo_meta_description', 5 );
+	/* <title> tag filter */
+	add_filter( 'wp_title', 'fx_seo_wp_title' );
+	add_filter( 'pre_get_document_title', 'fx_seo_wp_title' ); // wp 4.4
 
+	/* meta description */
+	add_action( 'wp_head', 'fx_seo_meta_description', 5 );
+}
 
 /**
  * Modify output of wp_title.
@@ -84,7 +113,7 @@ function fx_seo_wp_title( $title ){
 
 	/* in front page */
 	if ( is_front_page() ){
-		$title = fx_seo_get_option( 'front_title', get_bloginfo( 'name' ) );
+		$title = fx_seo_get_option( 'front_page_title', get_bloginfo( 'name' ) );
 	}
 
 	/* In other pages. */
@@ -124,6 +153,9 @@ function fx_seo_wp_title( $title ){
 				}
 				elseif ( is_year() ){
 					$current = sprintf( _x( 'Archive for %1$s', 'year', 'fx-seo' ), get_the_time( 'Y' ) );
+				}
+				else{
+					$current = __( 'Archives', 'fx-seo' );
 				}
 			}
 
@@ -173,7 +205,12 @@ function fx_seo_meta_description(){
 	}
 
 	/* If viewing the home/posts page or is singular pages */
-	elseif ( is_home() || is_singular() ) {
+	elseif ( is_home() ) {
+		$description = get_post_field( 'post_content', get_queried_object_id() );
+	}
+
+	/* Single Post, Page, CPT */
+	elseif( is_singular() ){
 		$description = get_post_field( 'post_excerpt', get_queried_object_id() );
 	}
 
@@ -203,11 +240,9 @@ function fx_seo_meta_description(){
 		}
 	}
 
-	/* Allow developer to modify meta description output */
-	$description = fx_seo_render_meta_description( $description );
-
 	/* Format output of meta description. */
 	if ( $description && !empty( $description ) ){
+		$description = fx_seo_render_meta_description( $description );
 		$description = '<meta name="description" content="' . str_replace( array( "\r", "\n", "\t" ), '', esc_attr( strip_tags( $description ) ) ) . '" />' . "\n";
 	}
 

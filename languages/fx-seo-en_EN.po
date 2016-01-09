@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: f(x) Login Notification\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-08 21:56+0700\n"
+"POT-Creation-Date: 2016-01-09 10:28+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: David Chandra Purnama <david@shellcreeper.com>\n"
 "Language-Team: David Chandra P <david@shellcreeper.com>\n"
@@ -16,27 +16,42 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: includes/functions.php:123
+#: includes/functions.php:16
+msgctxt "settings page"
+msgid "Current page title."
+msgstr ""
+
+#: includes/functions.php:17 includes/functions.php:29
+msgctxt "settings page"
+msgid "Site title."
+msgstr ""
+
+#: includes/functions.php:28
+msgctxt "settings page"
+msgid "Current page description."
+msgstr ""
+
+#: includes/functions.php:149
 #, php-format
 msgctxt "month"
 msgid "Archive for %1$s"
 msgstr ""
 
-#: includes/functions.php:126
+#: includes/functions.php:152
 #, php-format
 msgctxt "year"
 msgid "Archive for %1$s"
 msgstr ""
 
-#: includes/functions.php:132
+#: includes/functions.php:155 includes/functions.php:161
 msgid "Archives"
 msgstr ""
 
-#: includes/functions.php:142
+#: includes/functions.php:171
 msgid "404 Not Found"
 msgstr ""
 
-#: includes/functions.php:150
+#: includes/functions.php:179
 #, php-format
 msgctxt "paged"
 msgid "%1$s Page %2$s"
@@ -52,32 +67,41 @@ msgctxt "settings page"
 msgid "SEO"
 msgstr ""
 
-#: includes/settings.php:155
+#: includes/settings.php:125
+#, php-format
+msgctxt "settings page"
+msgid ""
+"<strong>SEO Notice:</strong> You're blocking access to robots. Change your "
+"<strong>Search Engine Visibility Option</strong> in <a href='%s'>Reading "
+"Settings</a> to fix this."
+msgstr ""
+
+#: includes/settings.php:176
 msgctxt "settings page"
 msgid "Front Page (Home Page)"
 msgstr ""
 
-#: includes/settings.php:163
+#: includes/settings.php:184
 msgctxt "settings page"
 msgid "Front page title"
 msgstr ""
 
-#: includes/settings.php:172
+#: includes/settings.php:193
 msgctxt "settings page"
 msgid "Front page meta description"
 msgstr ""
 
-#: includes/settings.php:182
+#: includes/settings.php:203
 msgctxt "settings page"
 msgid "Title & Meta Template"
 msgstr ""
 
-#: includes/settings.php:190
+#: includes/settings.php:211
 msgctxt "settings page"
 msgid "Title template"
 msgstr ""
 
-#: includes/settings.php:199
+#: includes/settings.php:220
 msgctxt "settings page"
 msgid "Meta description template"
 msgstr ""
