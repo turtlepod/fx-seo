@@ -12,7 +12,7 @@ Very simple SEO plugin.
 
 == Description ==
 
-f(x) SEO is a basic SEO Plugin. WordPress is SEO-friendly enough to get our site crawled and indexed properly but lack in some area to modify title tag and add proper meta description. And that is all this plugins do.
+**[f(x) SEO](http://genbu.me/plugins/fx-seo/)** is a basic SEO Plugin. WordPress is SEO-friendly enough to get our site crawled and indexed properly but lack in some area to modify title tag and add proper meta description. And that is all this plugins do.
 
 After installation of this plugin, you can configure title and meta description template in "Settings > SEO".
 
