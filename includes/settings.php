@@ -101,7 +101,7 @@ class fx_SEO_Settings{
 	?>
 		<div class="wrap">
 
-			<h1><?php _ex( 'SEO Settings', 'settings page', 'fx-login-notification' ); ?></h1>
+			<h1><?php _ex( 'SEO Settings', 'settings page', 'fx-seo' ); ?></h1>
 
 			<form method="post" action="options.php">
 				<?php settings_fields( $this->options_group ); ?>

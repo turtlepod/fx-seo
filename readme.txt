@@ -2,9 +2,9 @@
 Contributors: turtlepod
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TT23LVNKA3AU2
 Tags: seo
-Requires at least: 4.3
+Requires at least: 4.1
 Tested up to: 4.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,10 +70,17 @@ Current description output depends on what page you are viewing in the front end
 
 == Changelog ==
 
+= 1.1.0 - 12 Jan 2015 =
+* Use get_the_archive_title() in archive title tag.
+* fix text domain string.
+
 = 1.0.0 - 9 Jan 2015 =
 * Init
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Bug & Improvement.
 
 = 1.0.0 =
 initial relase.
