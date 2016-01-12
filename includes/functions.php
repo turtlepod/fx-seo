@@ -127,51 +127,20 @@ function fx_seo_wp_title( $title ){
 		/* If viewing any type of archive page. */
 		elseif ( is_archive() ) {
 
-			/* If viewing a taxonomy term archive. */
-			if ( is_category() || is_tag() || is_tax() ) {
-				if ( is_search() )
-					$current = esc_attr( get_search_query() ).' &ndash; '.single_term_title( '', false );
-				else
-					$current = single_term_title( '', false );
-			}
-
-			/* If viewing a post type archive. */
-			elseif ( is_post_type_archive() ) {
-				$post_type = get_post_type_object( get_query_var( 'post_type' ) );
-				$current = $post_type->labels->name;
-			}
-
-			/* If viewing an author/user archive. */
-			elseif ( is_author() ) {
-				$current = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
-			}
-
-			/* If viewing a date-/time-based archive. */
-			elseif ( is_date () ) {
-				if ( is_month() ){
-					$current = sprintf( _x( 'Archive for %1$s', 'month', 'fx-seo' ), single_month_title( ' ', false) );
-				}
-				elseif ( is_year() ){
-					$current = sprintf( _x( 'Archive for %1$s', 'year', 'fx-seo' ), get_the_time( 'Y' ) );
-				}
-				else{
-					$current = __( 'Archives', 'fx-seo' );
-				}
-			}
-
-			/* For any other archives. */
-			else {
-				$current = __( 'Archives', 'fx-seo' );
-			}
+			/* WP 4.1 */
+			$current = get_the_archive_title();
 		}
 
 		/* If viewing a search results page. */
-		elseif ( is_search() )
-			$current = strip_tags( str_replace( '+', ' ', get_search_query( false ) ) );
+		elseif ( is_search() ){
+			$search_query = str_replace( '+', ' ', get_search_query( false ) );
+			$current = sprintf( __( 'Search Results for: %s', 'fx-seo' ), $search_query );
+		}
 
 		/* If viewing a 404 not found page. */
-		elseif ( is_404() )
+		elseif ( is_404() ){
 			$current = __( '404 Not Found', 'fx-seo' );
+		}
 
 		/* Other pages */
 		else
